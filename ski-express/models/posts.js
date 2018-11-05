@@ -3,7 +3,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const postSchema = new mongoose.Schema({
     mountain: String,
-    post: String,
+    body: String,
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 });
 

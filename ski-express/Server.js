@@ -35,5 +35,5 @@ app.use('/auth', loginController);
 
 
 app.listen(process.env.PORT || 9001, () => {
-    console.log('listening on port 9000')
+    console.log('listening on port 9001')
 })
