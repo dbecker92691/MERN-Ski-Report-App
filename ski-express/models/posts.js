@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-const ObjectId = mongoose.Schema.Types.ObjectId;
+// const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const postSchema = new mongoose.Schema({
     mountain: String,
-    body: String,
-    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+    body: String
 });
 
 

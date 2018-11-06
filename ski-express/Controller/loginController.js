@@ -3,11 +3,11 @@ const router = express.Router();
 const User = require('../models/users');
 
 
-// New User
+// log in new user
 router.post('/', async (req, res) => {
     try{
         const user = await User.create(req.body);
-
+        console.log(req.body, "<--- user log in req.body")
         req.session.logged = true;
         req.session.username = req.body.username;
 
@@ -17,7 +17,6 @@ router.post('/', async (req, res) => {
         })
     } catch(err){
         console.log(err, "User creating error")
-
         res.json({
             status: 500
         })

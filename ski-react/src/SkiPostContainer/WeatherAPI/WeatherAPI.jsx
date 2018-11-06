@@ -12,13 +12,11 @@ class WeatherApi extends Component {
     }
     
     getWeather = async () => {
-        const weather = await fetch('https://api.darksky.net/forecast/13cca06941bd26f172e44ad0059ed4a4/39.5912,-106.0640', {
-            headers:{
-                'content-type': 'application/json'
-            }
-        });
+        const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+        const headers = {'content-type': 'application/json'}
+        const weather = await fetch(proxyUrl + 'api.darksky.net/forecast/13cca06941bd26f172e44ad0059ed4a4/39.5912,-106.0640', headers);
         console.log(weather, "<-- trying to fetch")
-        const parsedWeather = await weather.json();
+        const parsedWeather = await weather;
         return parsedWeather.daily
     }
     componentDidMount(){

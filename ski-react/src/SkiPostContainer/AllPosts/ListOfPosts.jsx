@@ -7,9 +7,10 @@ const ListOfPosts = (props) => {
             <div className="all posts" key={post._id}>
                 <ul>
                     <li>
-                        User: {post.user}
-                        Mountain: {post.mountain}
+                        Mountain: {post.mountain}<br/>
                         Post: {post.body}
+                        <button onClick={props.openAndEdit.bind(null,post)}>Edit</button>
+                        <button onClick={props.deletePost.bind(null,post._id)}>Delete</button>
                     </li>
                 </ul>
 

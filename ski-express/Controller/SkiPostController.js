@@ -1,24 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const SkiPost = require('../models/posts');
+const Post = require('../models/posts');
 
 
 
 // index route for posts
 router.get('/', async (req, res, next) => {
-    console.log(req.body, 'Here be our get route')
+    
     try{
-        const allPosts = await SkiPost.find();
-
+        const allPosts = await Post.find();
+        console.log(allPosts, 'Here be our index route')
         res.json({
             status: 200,
             data: allPosts
         });
     } catch(err){
+        console.log(err, "ERROR ERROR ERROR")
         res.json({
             status: 500
         })
     }
+    next;
 });
 
 
@@ -26,16 +28,15 @@ router.get('/', async (req, res, next) => {
 // new post route 
 router.post('/', async (req, res) => {
     try{
-        console.log(req.body, "wrek dat body");
-        const newSkiPost = await SkiPost.create(req.body);
-        console.log("you're building a post");
+        const newSkiPost = await Post.create(req.body);
+        console.log(newSkiPost, "you're building a post");
 
         res.json({
             status: 200,
             data: newSkiPost
         })
     } catch(err) {
-        console.log(err)
+        console.log(err, "WE HAVE AN ERROR HERE!!!!!")
 
         res.json({
             status: 500
@@ -48,7 +49,7 @@ router.post('/', async (req, res) => {
 router.get('/:id', async (req, res, next) => {
 
     try{
-        const foundPost = await SkiPost.findById(req.params.id);
+        const foundPost = await Post.findById(req.params.id);
         
         res.json({
             status: 200,
@@ -66,7 +67,7 @@ router.get('/:id', async (req, res, next) => {
 router.put('/:id', async (req, res) => {
     
     try {
-        const updatedSkiPost = await SkiPost.findByIdAndUpdate(req.params.id, req.body, {new: true})
+        const updatedSkiPost = await Post.findByIdAndUpdate(req.params.id, req.body, {new: true})
         console.log(updatedSkiPost, "these are our updates");
 
         res.json({
@@ -86,7 +87,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
 
     try {
-        const deleteSkiPost = await SkiPost.findByIdAndRemove(req.params.id)
+        const deleteSkiPost = await Post.findByIdAndRemove(req.params.id)
 
         res.json({
             status: 200,

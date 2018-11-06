@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 
+
 class NewPost extends Component {
     constructor(){
         super();
@@ -19,8 +20,8 @@ class NewPost extends Component {
         return(
             <div>
                 <form onSubmit={this.props.newSkiPost.bind(null, this.state)}>
-                    <input type='text' name={this.state.mountain} placeholder='Mountain' onChange={this.makePost} />
-                    <input type='text' name={this.state.body} placeholder='Post' onChange={this.makePost} />
+                    <input type='text' name='mountain' value={this.state.mountain} placeholder='Mountain' onChange={this.makePost} />
+                    <input type='text' name='body' value={this.state.body} placeholder='Post' onChange={this.makePost} />
                     <button type='submit'>Make Post</button>
                 </form>
             </div>
