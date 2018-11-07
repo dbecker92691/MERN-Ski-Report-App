@@ -7,39 +7,41 @@ class WeatherApi extends Component {
         super();
 
         this.state = {
-            weather: []
+            weather: {
+                main:{
+                    temp: "",
+                },
+                weather:[{
+                    description: ''
+                }]
+                
+            }
+                
         }
     }
     
     getWeather = async () => {
-        const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-        const headers = {'content-type': 'application/json'}
-        const weather = await fetch(proxyUrl + 'api.darksky.net/forecast/13cca06941bd26f172e44ad0059ed4a4/39.5912,-106.0640', headers);
-        console.log(weather, "<-- trying to fetch")
-        const parsedWeather = await weather;
-        return parsedWeather.daily
+        
+        const weather = await fetch('https://api.openweathermap.org/data/2.5/weather?lat=39.5912&lon=-106.0640&APPID=42cc72bd45edbc58f7d1ff378f21b1d8');
+        const parsedWeather = await weather.json();
+        return parsedWeather
     }
     componentDidMount(){
-        this.getWeather().then((weather) => {
+        this.getWeather().then((theWeather) => {
+            console.log(theWeather, "<----- this is the weather")
             this.setState({
-                weather: weather,
+                weather: theWeather
 
             })
-            
         }).catch((err) => {
             console.log(err, "<---- here is our API error")
         })
-    }
-    sendCurrentWeather = (weather) => {
-        this.props.getTheWeather(this.state.weather)
     }
 
     render(){
         return(
             <div>
-                Current Weather
-                <CurrentWeather weather={this.state.weather}/>
-                
+                <CurrentWeather theWeather={this.state.weather} />
             </div>
         )
     }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-//import WeatherAPI from './WeatherAPI/WeatherAPI';
+import WeatherAPI from './WeatherAPI/WeatherAPI';
 import ListOfPosts from './AllPosts/ListOfPosts';
 import NewPost from './AllPosts/NewPost/NewPost'
 import EditPost from './AllPosts/EditPost/EditPost'
@@ -23,6 +23,7 @@ class SkiPost extends Component {
         const parsedPostData = post.json();
         console.log(parsedPostData, "Getting all posts!!!!!!");
         return parsedPostData;
+        
         
 
     }
@@ -52,7 +53,7 @@ class SkiPost extends Component {
                 })
                 console.log(newPost, '<------ NEW POST . JSON')
 
-                const parsedNewPost = newPost.json();
+                const parsedNewPost = await newPost.json();
                 console.log(parsedNewPost, "<---- parsed new post")
 
                 this.setState({
@@ -117,11 +118,10 @@ class SkiPost extends Component {
 
     }
     deletePost = async (id) => {
-        const postToDelete = await fetch('http://localhost:9001/api/v1/skiapp/' + id, {
+        await fetch('http://localhost:9001/api/v1/skiapp/' + id, {
             method: "DELETE"
         })
 
-        const parsedDelete = postToDelete.json();
 
         this.setState({
             posts: this.state.posts.filter((post) => post._id !== id )})
@@ -130,16 +130,14 @@ class SkiPost extends Component {
     render(){
         return(
             <div>
-                This is our Main Container
-                {/* <section>
+                <section>
                     <WeatherAPI getTheWeather={this.getTheWeather}/>
-                </section> */}
+                </section>
                 <section>
                     <NewPost newSkiPost={this.newSkiPost}/>
                     <ListOfPosts posts={this.state.posts} openAndEdit={this.openAndEdit} deletePost={this.deletePost}/>
                     <EditPost handleEdit={this.handleEdit} closeAndEdit={this.closeAndEdit} postToEdit={this.state.postToEdit} />
-                </section>
-                
+                </section>  
             </div>
         )
     }

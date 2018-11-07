@@ -2,25 +2,23 @@ import React from 'react'
 
 
 const CurrentWeather = (props) => {
-    const weather = props.weather.map((dailyWeather, id) => {
-        return(
-            <div class='Daily Weather' key={id}>
-                <h3>
-                    Summary:
-                </h3>
-                <p>
-                    {dailyWeather.daily.summary}
-                </p>
-            </div>
-        )
-    })
-
+    console.log(props.theWeather.weather)
     return(
-        <div>
-            {weather}
-        </div>
+      <main>
+          <h2>Weather Report:</h2>
+            <h5>Temp:</h5>
+                <p>
+                    {JSON.stringify(props.theWeather.main.temp)}
+                </p>
+            <h5>Summary:</h5>    
+                <p>
+                    {JSON.stringify(props.theWeather.weather[0].description)}
+                </p>
+      </main>
     )
+    
 }
+
 
 
 export default CurrentWeather;
