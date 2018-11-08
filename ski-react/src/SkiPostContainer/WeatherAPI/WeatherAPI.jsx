@@ -28,7 +28,6 @@ class WeatherApi extends Component {
     }
     componentDidMount(){
         this.getWeather().then((theWeather) => {
-            console.log(theWeather, "<----- this is the weather")
             this.setState({
                 weather: theWeather
 

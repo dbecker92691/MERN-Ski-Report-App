@@ -14,14 +14,14 @@ class SkiPost extends Component {
             postToEdit: {
                 mountain: '',
                 body: '',
-                _id: ''
+                _id: '',
+                showEdit: false
             }
         }
     }
     getPosts = async () => {
         const post = await fetch('http://localhost:9001/api/v1/skiapp');
         const parsedPostData = post.json();
-        console.log(parsedPostData, "Getting all posts!!!!!!");
         return parsedPostData;
         
         
@@ -51,15 +51,12 @@ class SkiPost extends Component {
                         'Content-type': 'application/json'
                     }
                 })
-                console.log(newPost, '<------ NEW POST . JSON')
 
                 const parsedNewPost = await newPost.json();
-                console.log(parsedNewPost, "<---- parsed new post")
 
                 this.setState({
                     posts: [...this.state.posts, parsedNewPost.data]
                 })
-                console.log(this.state.posts, '<--- post . state')
 
             } catch(err){
                 console.log(err, "error with creating a new post")
@@ -68,8 +65,10 @@ class SkiPost extends Component {
 
     }
     openAndEdit = (postBeingEdited) => {
-
+        console.log(postBeingEdited, "<---- post being edited")
+        // issue is here!!!!!
         this.setState({
+            showEdit: true,
             postToEdit: {
                 ...postBeingEdited
             }
@@ -77,13 +76,16 @@ class SkiPost extends Component {
 
 
     }
+ 
     handleEdit = (e) => {
         this.setState({
-            ...this.state.postToEdit,
+            ...this.state.postToEdit, 
             [e.currentTarget.name]: e.currentTarget.value
+            
         })
 
     }
+
     closeAndEdit = async (e) => {
         e.preventDefault();
         try{
@@ -97,8 +99,11 @@ class SkiPost extends Component {
                     'content-type': 'application/json'
                 }
             })
+            console.log(submitEdit, 'fetching....')
 
             const parsedEdit = await submitEdit.json();
+
+            console.log(parsedEdit, 'response ....')
 
             const newEditedArr = this.state.posts.map((post) => {
                 if(post._id === parsedEdit.data._id){
@@ -108,7 +113,8 @@ class SkiPost extends Component {
             });
 
             this.setState({
-                posts: newEditedArr
+                posts: newEditedArr,
+                showEdit: false
             })
         } catch(err){
             console.log(err, "<----- This is our edit i")
@@ -135,8 +141,12 @@ class SkiPost extends Component {
                 </section>
                 <section>
                     <NewPost newSkiPost={this.newSkiPost}/>
-                    <ListOfPosts posts={this.state.posts} openAndEdit={this.openAndEdit} deletePost={this.deletePost}/>
-                    <EditPost handleEdit={this.handleEdit} closeAndEdit={this.closeAndEdit} postToEdit={this.state.postToEdit} />
+                    { this.state.showEdit ?
+                        <EditPost handleEdit={this.handleEdit} closeAndEdit={this.closeAndEdit}
+                        postToEdit={this.state.postToEdit} /> :
+                        <ListOfPosts posts={this.state.posts} openAndEdit={this.openAndEdit} 
+                        deletePost={this.deletePost} showEdit={this.showEdit} postToEdit={this.state.postToEdit}/>
+                    }
                 </section>  
             </div>
         )
