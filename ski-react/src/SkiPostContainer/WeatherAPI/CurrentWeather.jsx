@@ -9,7 +9,7 @@ const CurrentWeather = (props) => {
           <h2>Weather Report:</h2>
             <h5>Temp:</h5>
                 <p>
-                    {JSON.stringify(props.theWeather.main.temp)}
+                    <TempConverter temp={props.theWeather.main.temp} />
                 </p>
             <h5>Summary:</h5>    
                 <p>
