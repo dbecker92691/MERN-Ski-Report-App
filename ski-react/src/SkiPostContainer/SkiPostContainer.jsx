@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import WeatherAPI from './WeatherAPI/WeatherAPI';
 import ListOfPosts from './AllPosts/ListOfPosts';
-import NewPost from './AllPosts/NewPost/NewPost'
+import NewPost from './AllPosts/NewPost/NewPost';
 import EditPost from './AllPosts/EditPost/EditPost'
 
 class SkiPost extends Component {
@@ -11,14 +11,10 @@ class SkiPost extends Component {
         this.state = {
             posts: [],
             currentWeather: [],
-            postToEdit: {
-                mountain: '',
-                body: '',
-                _id: '',
-                showEdit: false
+            
             }
         }
-    }
+    
     getPosts = async () => {
         const post = await fetch('http://localhost:9001/api/v1/skiapp');
         const parsedPostData = post.json();
@@ -63,59 +59,29 @@ class SkiPost extends Component {
             }
 
 
-    }
-    openAndEdit = (postBeingEdited) => {
-        console.log(postBeingEdited, "<---- post being edited")
-        // issue is here!!!!!
-        this.setState({
-            showEdit: true,
-            postToEdit: {
-                ...postBeingEdited
-            }
-        })
-
-
-    }
- 
-    handleEdit = (e) => {
-        this.setState({
-            ...this.state.postToEdit, 
-            [e.currentTarget.name]: e.currentTarget.value
-            
-        })
-
-    }
-
-    closeAndEdit = async (e) => {
-        e.preventDefault();
+    } 
+    editPost = async (postData) => {
         try{
-            const submitEdit = await fetch('http://localhost:9001/api/v1/skiapp/' + this.state.postToEdit._id, {
+            const submitEdit = await fetch('http://localhost:9001/api/v1/skiapp/' + postData._id, {
                 method: "PUT",
-                body: JSON.stringify({
-                    mountain: this.state.postToEdit.mountain,
-                    body: this.state.postToEdit.body
-                }),
+                body: JSON.stringify(postData),
                 headers: {
                     'content-type': 'application/json'
-                }
+                },
+                credentials: 'include',
             })
             console.log(submitEdit, 'fetching....')
 
             const parsedEdit = await submitEdit.json();
 
             console.log(parsedEdit, 'response ....')
-
-            const newEditedArr = this.state.posts.map((post) => {
-                if(post._id === parsedEdit.data._id){
-                    post = parsedEdit.data
-                }
-                return post
-            });
-
             this.setState({
-                posts: newEditedArr,
-                showEdit: false
+                posts: this.state.posts.map((post) => {
+                    return post._id === parsedEdit.data._id ?
+                    parsedEdit.data : post
+                })
             })
+
         } catch(err){
             console.log(err, "<----- This is our edit i")
         }    
@@ -141,11 +107,9 @@ class SkiPost extends Component {
                 </section>
                 <section>
                     <NewPost newSkiPost={this.newSkiPost}/>
-                    { this.state.showEdit ?
-                        <EditPost handleEdit={this.handleEdit} closeAndEdit={this.closeAndEdit}
-                        postToEdit={this.state.postToEdit} /> :
-                        <ListOfPosts posts={this.state.posts} openAndEdit={this.openAndEdit} 
-                        deletePost={this.deletePost} showEdit={this.showEdit} postToEdit={this.state.postToEdit}/>
+                    { this.props.showEdit ? 
+                        <EditPost /> :
+                        <ListOfPosts posts={this.state.posts} openAndEdit={this.openAndEdit} deletePost={this.deletePost} />
                     }
                 </section>  
             </div>

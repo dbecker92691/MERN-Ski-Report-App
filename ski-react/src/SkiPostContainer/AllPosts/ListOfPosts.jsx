@@ -1,20 +1,12 @@
 import React from 'react'
+import EditPost from './EditPost/EditPost'
 
 
 const ListOfPosts = (props) => {
-    const allPosts = props.posts.map((post, i) => {
+    const allPosts = props.posts.map((post) => {
         return(
-            <div className="all posts" key={post._id}>
-                <ul>
-                    <li>
-                        Mountain: {post.mountain}<br/>
-                        Post: {post.body}
-                        <button onClick={props.openAndEdit.bind(null,post)}>Edit</button>
-                        <button onClick={props.deletePost.bind(null,post._id)}>Delete</button>
-                    </li>
-                </ul>
-
-            </div>
+                        <EditPost deletePost={props.deletePost} handleEdit={props.handleEdit} closeAndEdit={props.closeAndEdit} post={post} key={post._id}/>
+    
         )
     })
 
