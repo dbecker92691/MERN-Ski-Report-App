@@ -90,7 +90,7 @@ class SkiPost extends Component {
 
     }
     deletePost = async (id) => {
-        await fetch('http://localhost:9001/api/v1/skiapp/' + id, {
+        await fetch(`${process.env.REACT_APP_BACKEND_ADDRESS}/api/v1/skiapp/` + id, {
             method: "DELETE"
         })
 
