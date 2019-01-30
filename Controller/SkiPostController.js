@@ -4,6 +4,7 @@ const Post = require('../models/posts');
 
 
 
+
 // index route for posts
 router.get('/', async (req, res, next) => {
     

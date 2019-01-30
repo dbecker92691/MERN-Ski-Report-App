@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import WeatherAPI from './WeatherAPI/WeatherAPI';
 import ListOfPosts from './AllPosts/ListOfPosts';
 import NewPost from './AllPosts/NewPost/NewPost';
-import EditPost from './AllPosts/EditPost/EditPost'
+import EditPost from './AllPosts/EditPost/EditPost';
+import './style.css';
 
 class SkiPost extends Component {
     constructor(){
